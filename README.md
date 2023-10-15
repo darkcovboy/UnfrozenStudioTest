@@ -1,2 +1,2 @@
 # UnfrozenStudioTest
- Test exercise for UnfrozenStudio/ 
+ Test exercise for UnfrozenStudio
