@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class MissionBattlePanel : MonoBehaviour
+public class MissionBattlePanel : MonoBehaviour, IBattlePanel
 {
     private const string ForWhomText = "За кого играем: ";
     private const string AgainstText = "Против кого играем: ";
@@ -14,11 +14,11 @@ public class MissionBattlePanel : MonoBehaviour
     [SerializeField] private TMP_Text _missionAgainst;
     [SerializeField] private Button _finishButton;
 
-    private HeroPanel _heroPanel;
-    private Map _map;
+    private IHeroPanel _heroPanel;
+    private IMap _map;
 
     [Inject]
-    public void Constructor(HeroPanel heroPanel, Map map)
+    public void Constructor(IHeroPanel heroPanel, IMap map)
     {
         _map = map;
         _heroPanel = heroPanel;

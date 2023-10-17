@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using Zenject;
 //Скриптик для отображения информации о миссиии
-public class MissionDescriptionPanel : MonoBehaviour
+public class MissionDescriptionPanel : MonoBehaviour, IMissionDescription
 {
     [SerializeField] private TMP_Text _name;
     [SerializeField] private TMP_Text _description;
@@ -10,11 +10,11 @@ public class MissionDescriptionPanel : MonoBehaviour
     [SerializeField] private InfoPopup _infoPopup;
     
     private MissionData _previousMissionData;
-    private MissionBattlePanel _battlePanel;
-    private HeroPanel _heroPanel;
+    private IBattlePanel _battlePanel;
+    private IHeroPanel _heroPanel;
 
     [Inject]
-    public void Constructor(MissionBattlePanel missionBattlePanel, HeroPanel heroPanel)
+    public void Constructor(IBattlePanel missionBattlePanel, IHeroPanel heroPanel)
     {
         _battlePanel = missionBattlePanel;
         _heroPanel = heroPanel;

@@ -14,10 +14,10 @@ public class GameplaySceneInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
-        Container.Bind<MissionBattlePanel>().FromInstance(_battlePanel);
+        Container.Bind<IBattlePanel>().To<MissionBattlePanel>().FromInstance(_battlePanel);
         Container.Bind<HeroType>().FromInstance(_startHero).AsSingle();
-        Container.Bind<HeroPanel>().FromInstance(_heroPanel).AsSingle();
-        Container.Bind<MissionDescriptionPanel>().FromInstance(_missionDescriptionPanel);
-        Container.Bind<Map>().FromInstance(_map);
+        Container.Bind<IHeroPanel>().To<HeroPanel>().FromInstance(_heroPanel).AsSingle();
+        Container.Bind<IMissionDescription>().To<MissionDescriptionPanel>().FromInstance(_missionDescriptionPanel);
+        Container.Bind<IMap>().To<Map>().FromInstance(_map);
     }
 }

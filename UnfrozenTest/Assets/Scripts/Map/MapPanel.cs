@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,10 +9,10 @@ public class MapPanel : MonoBehaviour
     [SerializeField] private MissionFactory _missionFactory;
 
     private List<MissionView> missionViews = new List<MissionView>();
-    private MissionDescriptionPanel _missionDescriptionPanel;
+    private IMissionDescription _missionDescriptionPanel;
 
     [Inject]
-    public void Constructor(MissionDescriptionPanel missionDescriptionPanel)
+    public void Constructor(IMissionDescription missionDescriptionPanel)
     {
         _missionDescriptionPanel = missionDescriptionPanel;
     }

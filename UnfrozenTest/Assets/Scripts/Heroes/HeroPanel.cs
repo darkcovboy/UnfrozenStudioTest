@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using Zenject;
 
-public class HeroPanel : MonoBehaviour
+public class HeroPanel : MonoBehaviour, IHeroPanel
 {
     //ѕанелька с геро€ми, часть логики можно было бы вынести вне монобеха, но с учетом, что еЄ здесь мало, да и делать надо было быстро, поэтому решил оставить здесь
     [SerializeField] private HeroContainer _heroContainer;
