@@ -4,6 +4,7 @@ using Zenject;
 public class GameplaySceneInstaller : MonoInstaller
 {
     //Использую преимущественно Zenject как DI-Container, по-хорошему объекты изначально не должны быть на сцене, и мы их должны создавать, можем обращаться по Resources.Load и искать по пути
+    //Вообще можно было проще написать, условный класс BootStrap и оттуда прокинуть зависимости, особой разницы нет
     [Header("StartInfo")]
     [SerializeField] private HeroType _startHero;
     [Header("Objects on Scene")]

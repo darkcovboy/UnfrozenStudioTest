@@ -13,13 +13,7 @@ public class Map : MonoBehaviour, IMap
 
     public void OnMissionComplete(MissionData missionData)
     {
-        //Если у нас двойная миссия, то для другой миссии блокируем другие уровни, и, соответственно, удаляем зависимости
-        if (missionData.IsSingleMission == false)
-            missionContainer.RemoveUnreachebleMissions(missionData.ConnectedMission);
-
         //Обновляем состояние для пройденной миссии
         mapPanel.UpdateStates(missionData);
-        //Смотрим какие миссии у нас открылись
-        mapPanel.CheckMissionUnlock(missionData);
     }
 }

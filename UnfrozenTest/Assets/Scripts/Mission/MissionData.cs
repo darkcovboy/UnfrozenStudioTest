@@ -43,23 +43,11 @@ public class MissionData : ScriptableObject, IData
     public string AgaintsPlay => _againsWhoPlaying;
 
     public IEnumerable<MissionData> TemporaryBlockedMissions => _temporaryBlockedMissions;
-    public IEnumerable<MissionData> NeededMissionsToOpen => _neededMissionsToOpenCopy;
+    public IEnumerable<MissionData> NeededMissionsToOpen => _neededMissionsToOpen;
 
     public IEnumerable<HeroType> UnlockableHeroes => _unlockableHeroes;
 
     public IEnumerable<AddedCharacterPoints> AddedCharacterPoints => _addedCharacterPoints;
-
-    //Для работы создаем копии объектов, чтобы их можно было изменять
-    public void CreateCopy()
-    {
-        _neededMissionsToOpenCopy = new List<MissionData>(_neededMissionsToOpen);
-    }
-
-    //Убираем из нужных для открытия миссий ненужные миссии
-    public void RemoveUnreachableMission(MissionData missionData)
-    {
-        _neededMissionsToOpenCopy.Remove(missionData);
-    }
 
     //Добавил проверку, что если у нас миссия двойная, то _connectedMission не должно быть null 
     private void OnValidate()

@@ -10,8 +10,8 @@ public class HeroPanel : MonoBehaviour, IHeroPanel
     [SerializeField] private HeroFactory _heroFactory;
     [SerializeField] private Transform _container;
 
-    private List<HeroView> _heroViews = new List<HeroView>();
-    public HeroView SelectedHeroView { get; private set; }
+    private List<Hero> _heroes = new List<Hero>();
+    public Hero SelectedHeroView { get; private set; }
 
     private HeroType _startHero;
 
@@ -30,10 +30,10 @@ public class HeroPanel : MonoBehaviour, IHeroPanel
     {
         if(heroesUnlock.Count() > 0)
         {
-            foreach (HeroType hero in heroesUnlock)
+            foreach (HeroType heroType in heroesUnlock)
             {
-                HeroView heroView = _heroViews.First(view => view.HeroData.HeroType == hero);
-                heroView.Unlock();
+                Hero hero = _heroes.First(view => view.HeroData.HeroType == heroType);
+                hero.Lock(false);
             }
         }
 
@@ -43,13 +43,13 @@ public class HeroPanel : MonoBehaviour, IHeroPanel
             {
                 if(characterPoints.HeroType == HeroType.CurrentHero)
                 {
-                    HeroView heroView = _heroViews.First(view => view.IsSelected == true);
-                    heroView.UpdateScore(characterPoints.Score);
+                    Hero heroView = _heroes.First(view => view.IsSelected == true);
+                    heroView.UpdateScore(characterPoints.Points);
                 }
                 else
                 {
-                    HeroView heroView = _heroViews.First(view => view.HeroData.HeroType == characterPoints.HeroType);
-                    heroView.UpdateScore(characterPoints.Score);
+                    Hero heroView = _heroes.First(view => view.HeroData.HeroType == characterPoints.HeroType);
+                    heroView.UpdateScore(characterPoints.Points);
                 }
             }
         }
@@ -57,32 +57,33 @@ public class HeroPanel : MonoBehaviour, IHeroPanel
 
     private void Show()
     {
-        foreach (var hero in _heroContainer.Heroes)
+        foreach (var heroData in _heroContainer.Heroes)
         {
-            HeroView heroView = _heroFactory.Get(hero, _container);
-            _heroViews.Add(heroView);
+            HeroView heroView = _heroFactory.Get(_container);
+            Hero hero = new Hero(heroData, heroView);
+            _heroes.Add(hero);
             heroView.OnHeroViewClicked += SelectHero;
         }
 
-        foreach (var heroView in _heroViews)
+        foreach (var hero in _heroes)
         {
-            if (heroView.HeroData.HeroType == _startHero)
-                heroView.Unlock();
+            if (hero.HeroData.HeroType == _startHero)
+                hero.Lock(false);
         }
     }
 
-    private void SelectHero(HeroView heroView)
+    private void SelectHero(Hero heroToSelect)
     {
-        if (heroView.IsLocked)
+        if (heroToSelect.IsLocked)
             return;
 
-        foreach (var heroViewItem in _heroViews)
+        foreach (var hero in _heroes)
         {
-            if(!heroViewItem.IsLocked)
-                heroViewItem.Unselect();
+            if(!hero.IsLocked)
+                hero.Select(false);
         }
 
-        SelectedHeroView = heroView;
-        heroView.Select();
+        SelectedHeroView = heroToSelect;
+        heroToSelect.Select(true);
     }
 }

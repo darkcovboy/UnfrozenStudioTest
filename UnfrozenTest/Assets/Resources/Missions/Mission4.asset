@@ -46,4 +46,4 @@ MonoBehaviour:
   _unlockableHeroes: 01000000
   _addedCharacterPoints:
   - HeroType: 0
-    Score: 5
+    Points: 5

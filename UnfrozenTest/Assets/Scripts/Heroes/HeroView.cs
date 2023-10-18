@@ -5,9 +5,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 //Наследуемся от IPointerClickHandler, чтобы можно было кликать, ниже Action, который вызывается при клике
-public class HeroView : MonoBehaviour, IPointerClickHandler, IHeroView
+public class HeroView : MonoBehaviour, IPointerClickHandler
 {
-    public event Action<HeroView> OnHeroViewClicked;
+    public event Action<Hero> OnHeroViewClicked;
     //Решил добавить цвета для минимального обозначения что куда
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _scoreText;
@@ -16,55 +16,42 @@ public class HeroView : MonoBehaviour, IPointerClickHandler, IHeroView
     [SerializeField] private Color _selectedColor;
     [SerializeField] private Color _lockedColor;
 
-    public HeroData HeroData { get; private set; }
-
-    public bool IsLocked { get; private set; }
-
-    public bool IsSelected { get; private set; }
-
     private int _score;
+    private Hero _hero;
 
-    public void Initialize(HeroData heroData)
+    public void Initialize(Hero hero)
     {
-        HeroData = heroData;
-        _score = heroData.Score;
-        UpdateScore(heroData.Score);
-        UpdateName(heroData.Name);
-        IsSelected = false;
+        _hero = hero;
         _backImage.color = _defaultColor;
+        UpdateName(hero.HeroData.Name);
         Lock();
     }
 
-    public void OnPointerClick(PointerEventData eventData) => OnHeroViewClicked?.Invoke(this);
+    public void OnPointerClick(PointerEventData eventData) => OnHeroViewClicked?.Invoke(_hero);
 
     //Можно было сделать UnityAction какой-нибудь, и вызывать его и менять отображение
     public void UpdateScore(int score)
     {
-        _score += score;
-        _scoreText.text = _score.ToString();
+        _scoreText.text = score.ToString();
     }
     //Методы для выбора и lock/unlock.
     public void Select()
     {
         _backImage.color = _selectedColor;
-        IsSelected = true;
     }
 
     public void Unselect()
     {
         _backImage.color = _defaultColor;
-        IsSelected = false;
     }
 
     public void Lock()
     {
-        IsLocked = true;
         _backImage.color = _lockedColor;
     }
 
     public void Unlock()
     {
-        IsLocked = false;
         _backImage.color = _defaultColor;
     }
 

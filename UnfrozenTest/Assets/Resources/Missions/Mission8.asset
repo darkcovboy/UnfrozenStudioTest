@@ -36,10 +36,10 @@ MonoBehaviour:
   _unlockableHeroes: 
   _addedCharacterPoints:
   - HeroType: 0
-    Score: 5
+    Points: 5
   - HeroType: 1
-    Score: 10
+    Points: 10
   - HeroType: 2
-    Score: 10
+    Points: 10
   - HeroType: 3
-    Score: 10
+    Points: 10

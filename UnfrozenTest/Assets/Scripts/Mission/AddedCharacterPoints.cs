@@ -2,5 +2,5 @@
 public class AddedCharacterPoints
 {
     public HeroType HeroType;
-    public int Score;
+    public int Points;
 }

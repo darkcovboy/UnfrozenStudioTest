@@ -58,7 +58,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0f045b1eb85401745b59e8f681b58345, type: 2}
   _unlockableHeroes: 
   _addedCharacterPoints:
-  - HeroType: 1
-    Score: 5
+  - HeroType: 0
+    Points: 5
   - HeroType: 2
-    Score: -10
+    Points: -10

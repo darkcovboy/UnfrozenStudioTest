@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MissionView : MonoBehaviour, IPointerClickHandler, IMissionView
+public class MissionView : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private TMP_Text _missionNumber;
     [SerializeField] private Image _image;
@@ -14,54 +14,44 @@ public class MissionView : MonoBehaviour, IPointerClickHandler, IMissionView
     [SerializeField] private Color _temproraryLockedColor;
     [SerializeField] private Color _unreacheblaColor;
 
-    public event Action<MissionView> OnClick;
+    public event Action<Mission> OnClick;
 
-    public MissionData MissionData { get; private set; }
-    public MissionState MissionState { get; private set; }
+    private Mission _mission;
 
-    public void OnPointerClick(PointerEventData eventData) => OnClick?.Invoke(this);
+    public void OnPointerClick(PointerEventData eventData) => OnClick?.Invoke(_mission);
 
-    public void Initialize(MissionData missionData, bool isFirstLevel = false)
+    public void Initialize(Mission mission)
     {
-        MissionData = missionData;
-        _image.color = _activeColor;
-        _missionNumber.text = missionData.Index.ToString();
-        MissionState = MissionState.Locked;
-
-        if (isFirstLevel == true)
-            GetNextState();
-        else
-            SetLocked();
+        _mission = mission;
     }
 
-    public void GetNextState()
+    public void UpdateText(string index)
     {
-        switch (MissionState)
+        _missionNumber.text = index;
+    }
+
+    public void ChangeColor(MissionState missionState)
+    {
+        switch (missionState)
         {
             case MissionState.Locked:
-                MissionState = MissionState.Active;
-                SetActive();
+                SetLocked();
                 break;
             case MissionState.Active:
-                MissionState = MissionState.TemporarilyLocked;
-                SetTemprorayLocked();
+                SetActive();
                 break;
             case MissionState.TemporarilyLocked:
-                MissionState = MissionState.Passed;
+                SetTemprorayLocked();
+                break;
+            case MissionState.Passed:
                 SetPassed();
                 break;
         }
     }
 
-    public void Lock()
-    {
-        MissionState = MissionState.Locked;
-        SetLocked();
-    }
-
     public void Block()
     {
-        SetBLocked();
+        _image.color = _unreacheblaColor;
     }
 
     private void SetActive()
@@ -77,11 +67,6 @@ public class MissionView : MonoBehaviour, IPointerClickHandler, IMissionView
     private void SetPassed()
     {
         _image.color = _passedColor;
-    }
-
-    private void SetBLocked()
-    {
-        _image.color = _unreacheblaColor;
     }
 
     private void SetTemprorayLocked()
